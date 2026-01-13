@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一纸相思手写坊</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 顶部紫色区域的空白占位符 -->
+    <div class="top-spacer"></div>
+    
+    <div class="app-container">
+        <!-- 左侧控制面板 -->
+        <div class="left-panel">
+            <header class="app-header">
+                <h1>一纸相思手写坊</h1>
+                <p class="subtitle">让您的每一个文字都充满温度</p>
+            </header>
+
+            <!-- 文本输入区 -->
+            <section class="text-input-section">
+                <h3>📝 输入文字 <span class="char-count" id="charCount">字数：0</span></h3>
+                <textarea id="textInput" class="text-input" placeholder="在此输入要转换为手写体的文字..." rows="8"></textarea>
+                <div class="btn-row">
+                    <button class="btn-small btn-secondary" id="uploadWordBtn">
+                        📄 上传文档
+                    </button>
+                    <button class="btn-small btn-secondary" id="clearTextBtn" style="display:none;">
+                        🗑️ 清空
+                    </button>
+                </div>
+                <input type="file" id="fileInput" style="display: none;" accept=".doc,.docx,.txt,.pdf">
+            </section>
+
+            <!-- 转换设置 -->
+            <section class="settings-section">
+                <h3>🖋️ 字体设置</h3>
+                
+                <!-- 字体选择 -->
+                <div class="setting-group">
+                    <label for="fontSelect">选择字体</label>
+                    <select id="fontSelect" class="styled-select">
+                        <option value="">请选择字体</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>自定义字体</label>
+                    <div class="form-right">
+                        <span class="file-name" id="customFontName"></span>
+                        <button class="btn-mini" id="uploadFontBtn">上传TTF</button>
+                    </div>
+                    <input type="file" id="fontInput" style="display: none;" accept=".ttf,.TTF">
+                </div>
+            </section>
+
+            <!-- 背景设置 -->
+            <section class="settings-section">
+                <h3>🖼️ 背景设置</h3>
+                
+                <div class="setting-group">
+                    <label for="paperSize">纸张规格</label>
+                    <select id="paperSize" class="styled-select">
+                        <option value="A4">A4</option>
+                        <option value="A3">A3</option>
+                        <option value="A5">A5</option>
+                        <option value="B4">B4</option>
+                        <option value="B5">B5</option>
+                        <option value="Letter">Letter</option>
+                    </select>
+                </div>
+
+                <!-- 纸张类型 -->
+                <div class="setting-group">
+                    <label for="paperType">纸张类型</label>
+                    <select id="paperType" class="styled-select">
+                        <option value="red">红色信纸</option>
+                        <option value="green">绿色信纸</option>
+                        <option value="blue">蓝色信纸</option>
+                        <option value="grid">方格信纸</option>
+                        <option value="plain">纯白纸</option>
+                        <option value="custom">上传背景图片</option>
+                    </select>
+                </div>
+
+                <!-- 背景图上传 -->
+                <div class="setting-group" id="bgUploadGroup" style="display: none;">
+                    <label>已上传背景</label>
+                    <div class="form-right">
+                        <span class="file-name" id="bgFileName"></span>
+                        <button class="btn-mini btn-danger" id="clearBgBtn" style="display:none;">清除</button>
+                    </div>
+                    <input type="file" id="bgInput" style="display: none;" accept="image/*">
+                </div>
+
+                <img id="bgPreview" class="bg-preview" style="display:none;" />
+            </section>
+
+            <!-- 排版参数 -->
+            <section class="settings-section">
+                <h3>📏 排版参数</h3>
+
+                <div class="setting-group">
+                    <label>字体大小</label>
+                    <div class="slider-group">
+                        <input type="range" id="fontSize" min="50" max="300" value="90" class="slider">
+                        <span class="slider-value" id="fontSizeValue">90</span>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <label>行间距</label>
+                    <div class="slider-group">
+                        <input type="range" id="lineSpacing" min="50" max="400" value="120" class="slider">
+                        <span class="slider-value" id="lineSpacingValue">120</span>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <label>字间距</label>
+                    <div class="slider-group">
+                        <input type="range" id="wordSpacing" min="0" max="100" value="10" class="slider">
+                        <span class="slider-value" id="wordSpacingValue">10</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 边距设置 -->
+            <section class="settings-section">
+                <h3>📏 边距设置</h3>
+                <div class="margin-grid">
+                    <div class="setting-group-inline">
+                        <label>上</label>
+                        <input type="number" id="marginTop" value="150" min="0" max="500" class="input-number">
+                    </div>
+                    <div class="setting-group-inline">
+                        <label>下</label>
+                        <input type="number" id="marginBottom" value="150" min="0" max="500" class="input-number">
+                    </div>
+                    <div class="setting-group-inline">
+                        <label>左</label>
+                        <input type="number" id="marginLeft" value="150" min="0" max="500" class="input-number">
+                    </div>
+                    <div class="setting-group-inline">
+                        <label>右</label>
+                        <input type="number" id="marginRight" value="150" min="0" max="500" class="input-number">
+                    </div>
+                </div>
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button class="btn-primary btn-large" id="previewBtn">
+                    👁️ 预览效果
+                </button>
+                <div class="btn-row">
+                    <button class="btn-secondary btn-half" id="generateBtn">
+                        🖼️ 生成图片
+                    </button>
+                    <button class="btn-secondary btn-half" id="downloadBtn">
+                        📄 生成PDF
+                    </button>
+                </div>
+            </section>
+
+            <!-- 提示信息 -->
+            <div class="info-box" id="infoBox">
+                <p id="pageEstimate">预计生成 <strong>0</strong> 页</p>
+            </div>
+        </div>
+
+        <!-- 右侧预览区 -->
+        <div class="right-panel">
+            <div class="preview-container">
+                <div class="preview-header">
+                    <h2>预览效果</h2>
+                    <button class="btn-icon" id="fullscreenBtn" title="全屏预览">
+                        <svg viewBox="0 0 24 24"><path d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z"/></svg>
+                    </button>
+                </div>
+                <div class="preview-content" id="previewArea">
+                    <div class="preview-placeholder">
+                        <svg class="placeholder-icon" viewBox="0 0 24 24">
+                            <path d="M19,19H5V5H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M13.96,12.29L11.21,15.83L9.25,13.47L6.5,17H17.5L13.96,12.29Z"/>
+                        </svg>
+                        <p>点击“点击预览”按钮查看手写效果</p>
+                    </div>
+                    <div class="preview-image-container" style="position: relative; display: inline-block;">
+                        <img id="previewImage" style="display: none; max-width: 100%; height: auto;">
+                        <div id="watermarkOverlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 10;">
+                            <!-- Watermark content will be generated by JS -->
+                        </div>
+                    </div>
+                    <!-- 翻页按钮 -->
+                    <div class="preview-pagination" id="previewPagination" style="display: none;">
+                        <button class="btn-page" id="prevPageBtn" title="上一页">
+                            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"/></svg>
+                            上一页
+                        </button>
+                        <span class="page-info" id="pageInfo">1 / 1</span>
+                        <button class="btn-page" id="nextPageBtn" title="下一页">
+                            下一页
+                            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <p id="copyrightText">Copyright © 2025 一纸相思手写坊 All Rights Reserved.</p>
+            <p id="icpInfo" style="display: none;">ICP备案号：<a id="icpLink" href="#" target="_blank"></a></p>
+            <div class="friend-links" id="friendLinksContainer" style="display: none;">
+                <span>友情链接：</span>
+                <div id="friendLinksList"></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 加载遮罩 -->
+    <div id="loadingMask" class="loading-mask" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text" id="loadingText">加载中...</p>
+        </div>
+    </div>
+
+    <!-- 相思豆弹窗 -->
+    <div id="loveseedModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>输入相思豆</h3>
+                <button class="modal-close" id="closeLoveseedModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>请输入您的6位相思豆码以生成手写文稿</p>
+                <input type="text" id="loveseedInput" class="loveseed-input" maxlength="6" placeholder="请输入6位数字">
+                <div class="loveseed-actions">
+                    <button class="btn-primary" id="confirmLoveseedBtn">确认</button>
+                    <button class="btn-secondary" id="getLoveseedBtn">获取相思豆</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

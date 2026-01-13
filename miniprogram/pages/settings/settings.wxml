@@ -1,0 +1,206 @@
+<!--pages/settings/settings.wxml-->
+<view class="container">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <text class="page-title">⚙️ 高级设置</text>
+    <text class="page-subtitle">自定义更多手写效果参数</text>
+  </view>
+
+  <!-- 随机扰动参数 -->
+  <view class="card">
+    <view class="card-title"><text class="card-icon">🎲</text>随机扰动参数</view>
+    <text class="card-desc">💡 调整这些参数可以让手写效果更自然、更有人情味</text>
+    
+    <view class="form-item">
+      <text class="form-label">行间距扰动</text>
+      <slider 
+        class="form-slider"
+        min="0" 
+        max="20" 
+        value="{{lineSpacingSigma}}"
+        show-value="{{true}}"
+        bindchange="onLineSpacingSigmaChange"
+        activeColor="#6366F1"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">字体大小扰动</text>
+      <slider 
+        class="form-slider"
+        min="0" 
+        max="10" 
+        value="{{fontSizeSigma}}"
+        show-value="{{true}}"
+        bindchange="onFontSizeSigmaChange"
+        activeColor="#6366F1"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">字间距扰动</text>
+      <slider 
+        class="form-slider"
+        min="0" 
+        max="10" 
+        value="{{wordSpacingSigma}}"
+        show-value="{{true}}"
+        bindchange="onWordSpacingSigmaChange"
+        activeColor="#6366F1"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">横向偏移扰动</text>
+      <slider 
+        class="form-slider"
+        min="0" 
+        max="10" 
+        value="{{perturbXSigma}}"
+        show-value="{{true}}"
+        bindchange="onPerturbXSigmaChange"
+        activeColor="#6366F1"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">纵向偏移扰动</text>
+      <slider 
+        class="form-slider"
+        min="0" 
+        max="10" 
+        value="{{perturbYSigma}}"
+        show-value="{{true}}"
+        bindchange="onPerturbYSigmaChange"
+        activeColor="#6366F1"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">旋转扰动 (×0.01)</text>
+      <slider 
+        class="form-slider"
+        min="0" 
+        max="10" 
+        value="{{perturbThetaSigma * 100}}"
+        show-value="{{true}}"
+        bindchange="onPerturbThetaSigmaChange"
+        activeColor="#6366F1"
+      />
+    </view>
+  </view>
+
+  <!-- 涂改痕迹参数 -->
+  <view class="card">
+    <view class="card-title"><text class="card-icon">✏️</text>涂改痕迹</view>
+    <text class="card-desc">💡 模拟手写时的涂改效果，让文字更有真实感</text>
+    
+    <view class="form-item">
+      <text class="form-label">涂改概率 (%)</text>
+      <slider 
+        class="form-slider"
+        min="0" 
+        max="50" 
+        value="{{strikethroughProbability * 100}}"
+        show-value="{{true}}"
+        bindchange="onStrikethroughProbabilityChange"
+        activeColor="#EC4899"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">涂改线宽</text>
+      <slider 
+        class="form-slider"
+        min="1" 
+        max="5" 
+        value="{{strikethroughWidth}}"
+        show-value="{{true}}"
+        bindchange="onStrikethroughWidthChange"
+        activeColor="#EC4899"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">长度扰动</text>
+      <slider 
+        class="form-slider"
+        min="0" 
+        max="10" 
+        value="{{strikethroughLengthSigma}}"
+        show-value="{{true}}"
+        bindchange="onStrikethroughLengthSigmaChange"
+        activeColor="#EC4899"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">宽度扰动</text>
+      <slider 
+        class="form-slider"
+        min="0" 
+        max="5" 
+        value="{{strikethroughWidthSigma}}"
+        show-value="{{true}}"
+        bindchange="onStrikethroughWidthSigmaChange"
+        activeColor="#EC4899"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">角度扰动 (×0.01)</text>
+      <slider 
+        class="form-slider"
+        min="0" 
+        max="50" 
+        value="{{strikethroughAngleSigma * 100}}"
+        show-value="{{true}}"
+        bindchange="onStrikethroughAngleSigmaChange"
+        activeColor="#EC4899"
+      />
+    </view>
+  </view>
+
+  <!-- 墨水参数 -->
+  <view class="card">
+    <view class="card-title"><text class="card-icon">🖋️</text>墨水效果</view>
+    
+    <view class="form-item">
+      <text class="form-label">墨水深度扰动</text>
+      <slider 
+        class="form-slider"
+        min="0" 
+        max="50" 
+        value="{{inkDepthSigma}}"
+        show-value="{{true}}"
+        bindchange="onInkDepthSigmaChange"
+        activeColor="#6366F1"
+      />
+    </view>
+  </view>
+
+  <!-- 服务器设置 -->
+  <view class="card">
+    <view class="card-title"><text class="card-icon">🌐</text>服务器设置</view>
+    <text class="card-desc">💡 配置后端 API 服务器地址，用于图片生成</text>
+    
+    <view class="form-item-vertical">
+      <text class="form-label">API 地址</text>
+      <input 
+        class="form-input-full" 
+        type="text" 
+        value="{{apiBaseUrl}}"
+        placeholder="http://localhost:5000"
+        bindinput="onApiUrlChange"
+      />
+      <button class="btn-small btn-primary" bindtap="onSaveApiUrl">💾 保存</button>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section">
+    <button class="btn-secondary" bindtap="onResetDefaults">🔄 恢复默认设置</button>
+  </view>
+
+  <view class="bottom-space"></view>
+</view>

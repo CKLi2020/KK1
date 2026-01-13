@@ -1,0 +1,308 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <text class="page-title">✍️ 一纸相思手写坊</text>
+    <text class="page-subtitle">让您的每一个文字都充满温度</text>
+  </view>
+
+  <!-- 顶部导航 -->
+  <view class="nav-bar" wx:if="{{userInfo.isAdmin}}">
+    <navigator url="/pages/admin/admin" class="nav-item admin-nav">
+      👑 管理
+    </navigator>
+  </view>
+
+  <!-- 文字输入区域 -->
+  <view class="card">
+    <view class="card-title">
+      <text><text class="card-icon">📝</text>输入文字</text>
+      <text class="text-count">{{textLength}} 字</text>
+    </view>
+    
+    <view class="textarea-wrapper">
+      <textarea 
+        class="textarea"
+        placeholder="在此输入要转换为手写体的文字..."
+        value="{{text}}"
+        bindinput="onTextInput"
+        maxlength="10000"
+      >
+      </textarea>
+    </view>
+    
+    <view class="btn-row">
+      <button class="btn-small btn-secondary" bindtap="onUploadDocument">
+        上传文档
+      </button>
+      <button class="btn-small btn-secondary" bindtap="onClear" wx:if="{{text}}">
+        清空
+      </button>
+    </view>
+  </view>
+
+  <!-- 字体选择 -->
+  <view class="card">
+    <view class="card-title"><text class="card-icon">🖋️</text>字体设置</view>
+    
+    <view class="form-item">
+      <text class="form-label">选择字体</text>
+      <picker 
+        class="form-picker"
+        range="{{fonts}}"
+        value="{{fontIndex}}"
+        bindchange="onFontChange"
+      >
+        <view class="picker-value">
+          {{fonts[fontIndex] || '请选择'}}
+          <text class="arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">自定义字体</text>
+      <view class="form-right">
+        <text class="file-name" wx:if="{{customFontName}}">{{customFontName}}</text>
+        <button class="btn-mini" bindtap="onUploadFont">上传TTF</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 背景设置 -->
+  <view class="card">
+    <view class="card-title"><text class="card-icon">🖼️</text>背景设置</view>
+    
+    <view class="form-item">
+      <text class="form-label">纸张规格</text>
+      <picker 
+        class="form-picker"
+        mode="selector" 
+        range="{{paperSizes}}" 
+        value="{{paperSizeIndex}}"
+        bindchange="onPaperSizeChange"
+      >
+        <view class="picker-value">
+          {{paperSizes[paperSizeIndex]}}
+          <text class="arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">纸张类型</text>
+      <picker 
+        class="form-picker"
+        mode="selector" 
+        range="{{paperTypes}}" 
+        value="{{paperTypeIndex}}"
+        bindchange="onPaperTypeChange"
+      >
+        <view class="picker-value">
+          {{paperTypes[paperTypeIndex]}}
+          <text class="arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+    
+    <!-- 显示已上传的背景图片预览 -->
+    <view class="form-item" wx:if="{{backgroundPath}}">
+      <text class="form-label">已上传背景</text>
+      <view class="form-right">
+        <button class="btn-mini btn-danger" bindtap="onClearBackground">清除</button>
+      </view>
+    </view>
+    
+    <image 
+      class="background-preview" 
+      src="{{backgroundPath}}" 
+      mode="aspectFit"
+      wx:if="{{backgroundPath}}"
+    />
+  </view>
+
+  <!-- 基础参数 -->
+  <view class="card">
+    <view class="card-title"><text class="card-icon">📐</text>排版参数</view>
+    
+    <view class="form-item">
+      <text class="form-label">字体大小</text>
+      <slider 
+        class="form-slider"
+        min="50" 
+        max="300" 
+        value="{{fontSize}}"
+        show-value="{{true}}"
+        bindchange="onFontSizeChange"
+        activeColor="#6366F1"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">行间距</text>
+      <slider 
+        class="form-slider"
+        min="50" 
+        max="400" 
+        value="{{lineSpacing}}"
+        show-value="{{true}}"
+        bindchange="onLineSpacingChange"
+        activeColor="#6366F1"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">字间距</text>
+      <slider 
+        class="form-slider"
+        min="0" 
+        max="100" 
+        value="{{wordSpacing}}"
+        show-value="{{true}}"
+        bindchange="onWordSpacingChange"
+        activeColor="#6366F1"
+      />
+    </view>
+  </view>
+
+  <!-- 边距设置 -->
+  <view class="card">
+    <view class="card-title"><text class="card-icon">📏</text>边距设置</view>
+    
+    <view class="margin-row">
+      <view class="margin-item-half">
+        <text class="margin-label">上</text>
+        <input 
+          class="margin-input" 
+          type="number" 
+          value="{{marginTop}}"
+          bindinput="onMarginTopChange"
+        />
+      </view>
+      <view class="margin-item-half">
+        <text class="margin-label">下</text>
+        <input 
+          class="margin-input" 
+          type="number" 
+          value="{{marginBottom}}"
+          bindinput="onMarginBottomChange"
+        />
+      </view>
+    </view>
+    <view class="margin-row">
+      <view class="margin-item-half">
+        <text class="margin-label">左</text>
+        <input 
+          class="margin-input" 
+          type="number" 
+          value="{{marginLeft}}"
+          bindinput="onMarginLeftChange"
+        />
+      </view>
+      <view class="margin-item-half">
+        <text class="margin-label">右</text>
+        <input 
+          class="margin-input" 
+          type="number" 
+          value="{{marginRight}}"
+          bindinput="onMarginRightChange"
+        />
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <button class="btn-primary btn-large" bindtap="onPreview">
+      👁️ 预览效果
+    </button>
+    <view class="btn-row">
+      <button class="btn-secondary btn-half" bindtap="onGenerate">
+        🖼️ 生成图片
+      </button>
+      <button class="btn-secondary btn-half" bindtap="onGeneratePDF">
+        📄 生成PDF
+      </button>
+    </view>
+  </view>
+
+  <!-- 底部占位 -->
+  <view class="bottom-space"></view>
+</view>
+
+<!-- 加载遮罩 -->
+<view class="loading-mask" wx:if="{{loading}}">
+  <view class="loading-content">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">{{loadingText}}</text>
+  </view>
+</view>
+
+<!-- 全屏预览弹窗 -->
+<view class="preview-modal" wx:if="{{showPreviewModal}}">
+  <!-- 页码指示器 -->
+  <view class="preview-header">
+    <text class="page-indicator">{{currentPreviewPage + 1}} / {{totalPreviewPages}}</text>
+  </view>
+  
+  <!-- 左右滑动切换页面 -->
+  <swiper 
+    class="preview-swiper"
+    current="{{currentPreviewPage}}"
+    bindchange="onPreviewPageChange"
+    duration="300"
+  >
+    <swiper-item wx:for="{{previewImages}}" wx:key="index">
+      <scroll-view 
+        class="preview-modal-scroll" 
+        scroll-y="{{true}}"
+        enhanced="{{true}}"
+        show-scrollbar="{{true}}"
+      >
+        <view class="preview-image-container">
+          <image 
+            class="preview-modal-image" 
+            src="{{item}}" 
+            mode="widthFix"
+          />
+          <!-- 水印层 -->
+          <view class="watermark-layer">
+            <text class="watermark-text">一纸相思手写坊小程序</text>
+            <text class="watermark-text">一纸相思手写坊小程序</text>
+            <text class="watermark-text">一纸相思手写坊小程序</text>
+            <text class="watermark-text">一纸相思手写坊小程序</text>
+          </view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+  
+  <!-- 底部操作栏 -->
+  <view class="preview-footer">
+    <view class="page-nav">
+      <button class="nav-btn {{currentPreviewPage === 0 ? 'disabled' : ''}}" bindtap="onPrevPage">上一页</button>
+      <button class="close-btn" bindtap="onClosePreviewModal">关闭</button>
+      <button class="nav-btn {{currentPreviewPage >= totalPreviewPages - 1 ? 'disabled' : ''}}" bindtap="onNextPage">下一页</button>
+    </view>
+  </view>
+</view>
+
+<!-- 登录弹窗 -->
+<login-modal 
+  show="{{showLoginModal}}"
+  bindclose="onLoginModalClose"
+  bindskip="onLoginModalSkip"
+  bindsuccess="onLoginModalSuccess"
+/>
+
+<!-- 相思豆弹窗 -->
+<loveseed-modal
+  show="{{showLoveseedModal}}"
+  actionType="{{currentActionType}}"
+  bindconfirm="onLoveseedConfirm"
+  bindgetloveseed="onGetLoveseed"
+  bindclose="onLoveseedModalClose"
+/>
+
+<!-- 付费选择弹窗 -->
+<!-- payment-modal removed: no purchase prompts -->

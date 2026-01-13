@@ -1,0 +1,6 @@
+<!-- 管理页面已被移除 -->
+<view class="removed-page">
+  <view class="container">
+    <text>管理页面已被移除</text>
+  </view>
+</view>

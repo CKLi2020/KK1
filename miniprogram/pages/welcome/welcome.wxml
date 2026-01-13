@@ -1,0 +1,47 @@
+<!--pages/welcome/welcome.wxml-->
+<view class="welcome-container">
+  <!-- 背景装饰 -->
+  <view class="bg-decoration"></view>
+  
+  <!-- 主要内容 -->
+  <view class="content">
+    <!-- Logo 图标 -->
+    <view class="logo-section">
+      <view class="logo-icon">✍️</view>
+      <text class="app-name">一纸相思手写坊</text>
+      <text class="app-subtitle">全自动手写体生成</text>
+    </view>
+    
+    <!-- 特性展示 -->
+    <view class="features">
+      <view class="feature-item fade-in-1">
+        <text class="feature-icon">📝</text>
+        <text class="feature-text">多种手写字体</text>
+      </view>
+      <view class="feature-item fade-in-2">
+        <text class="feature-icon">🎨</text>
+        <text class="feature-text">自定义样式</text>
+      </view>
+      <view class="feature-item fade-in-3">
+        <view class="feature-icon-group">
+          <text class="feature-icon-small">🖼️</text>
+          <text class="feature-icon-small">📄</text>
+        </view>
+        <text class="feature-text">支持图片和PDF导出</text>
+      </view>
+    </view>
+    
+    <!-- 主按钮 -->
+    <view class="button-container">
+      <button class="start-button" bindtap="goToIndex">
+        <text class="button-text">✨ 体验文字手写功能</text>
+        <text class="button-arrow">→</text>
+      </button>
+    </view>
+    
+    <!-- 底部提示 -->
+    <view class="footer-tips">
+      <text class="tip-text">让您的每一个文字都充满温度</text>
+    </view>
+  </view>
+</view>

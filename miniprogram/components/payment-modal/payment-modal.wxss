@@ -1,0 +1,328 @@
+/* 遮罩层 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* 弹窗容器 */
+.modal-container {
+  width: 96%;
+  max-width: 760rpx;
+  background: linear-gradient(180deg, #f8f9ff 0%, #ffffff 100%);
+  border-radius: 32rpx;
+  padding: 40rpx 28rpx 30rpx;
+  position: relative;
+  animation: slideUp 0.35s ease;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.15);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 关闭按钮 */
+.close-btn {
+  position: absolute;
+  top: 16rpx;
+  right: 20rpx;
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.close-icon {
+  font-size: 44rpx;
+  color: #bbb;
+  font-weight: 300;
+}
+
+/* 头部 */
+.modal-header {
+  text-align: center;
+  margin-bottom: 28rpx;
+}
+
+.modal-title {
+  font-size: 38rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+  display: block;
+}
+
+.modal-subtitle {
+  font-size: 24rpx;
+  color: #f5a623;
+  margin-top: 8rpx;
+  display: block;
+}
+
+/* 卡片容器 */
+.cards-wrapper {
+  display: flex;
+  gap: 16rpx;
+}
+
+/* 卡片通用样式 */
+.plan-card {
+  flex: 1;
+  border-radius: 24rpx;
+  position: relative;
+  overflow: visible;
+}
+
+.card-content {
+  padding: 48rpx 16rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 560rpx;
+}
+
+/* 角标 */
+.card-ribbon {
+  position: absolute;
+  top: 16rpx;
+  left: 16rpx;
+  padding: 6rpx 16rpx;
+  font-size: 20rpx;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 8rpx;
+  z-index: 5;
+}
+
+.free-ribbon {
+  background: linear-gradient(135deg, #67c23a 0%, #5daf34 100%);
+}
+
+.vip-ribbon {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+}
+
+/* 免费卡片 */
+.free-card {
+  background: linear-gradient(180deg, #f5f7fa 0%, #eef1f5 100%);
+  border: 2rpx solid #e4e7ed;
+}
+
+/* VIP卡片 */
+.vip-card {
+  background: linear-gradient(180deg, #fffbeb 0%, #fff8e1 100%);
+  border: 2rpx solid #ffd54f;
+}
+
+/* 图标 */
+.plan-icon {
+  font-size: 56rpx;
+  margin-bottom: 12rpx;
+}
+
+/* 套餐名称 */
+.plan-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+/* 价格显示 */
+.plan-price {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 20rpx;
+}
+
+.price-currency {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #67c23a;
+}
+
+.price-value {
+  font-size: 56rpx;
+  font-weight: bold;
+  color: #67c23a;
+  line-height: 1;
+}
+
+/* 特性列表 */
+.plan-features {
+  width: 100%;
+  margin-bottom: 20rpx;
+  padding: 0 8rpx;
+}
+
+.vip-features {
+  margin-bottom: 12rpx;
+}
+
+.feature-row {
+  display: flex;
+  align-items: center;
+  padding: 8rpx 0;
+  font-size: 24rpx;
+}
+
+.feature-dot {
+  font-size: 18rpx;
+  margin-right: 10rpx;
+}
+
+.warning-dot {
+  color: #e6a23c;
+}
+
+.success-dot {
+  color: #67c23a;
+}
+
+.feature-text {
+  color: #666;
+}
+
+/* 套餐区域 */
+.packages-scroll {
+  width: 100%;
+  margin-bottom: 16rpx;
+}
+
+.package-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18rpx 14rpx;
+  margin-bottom: 12rpx;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2rpx solid #e8e8e8;
+  border-radius: 14rpx;
+  transition: all 0.25s ease;
+}
+
+.package-option.selected {
+  background: #fff;
+  border-color: #ffc107;
+  box-shadow: 0 4rpx 20rpx rgba(255, 193, 7, 0.3);
+  transform: scale(1.02);
+}
+
+.package-left {
+  display: flex;
+  align-items: center;
+}
+
+.package-radio {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  border: 3rpx solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 14rpx;
+  font-size: 22rpx;
+  color: #fff;
+  transition: all 0.2s;
+}
+
+.package-radio.checked {
+  background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+  border-color: #ffc107;
+}
+
+.package-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.pkg-name {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.pkg-desc {
+  font-size: 20rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+.package-price-box {
+  display: flex;
+  align-items: baseline;
+}
+
+.pkg-symbol {
+  font-size: 22rpx;
+  color: #ff5722;
+  font-weight: bold;
+}
+
+.pkg-num {
+  font-size: 36rpx;
+  color: #ff5722;
+  font-weight: bold;
+}
+
+/* 按钮样式 */
+.plan-btn {
+  width: 100%;
+  height: 76rpx;
+  line-height: 76rpx;
+  border-radius: 38rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  border: none;
+  margin-top: auto;
+}
+
+.plan-btn::after {
+  border: none;
+}
+
+.free-plan-btn {
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+  color: #666;
+}
+
+.vip-plan-btn {
+  background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+  color: #5d4e37;
+  box-shadow: 0 6rpx 20rpx rgba(255, 179, 0, 0.4);
+}
+
+.vip-plan-btn[disabled] {
+  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+  color: #999;
+  box-shadow: none;
+}
+
+/* 底部提示 */
+.modal-footer {
+  text-align: center;
+  margin-top: 24rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #eee;
+}
+
+.footer-text {
+  font-size: 22rpx;
+  color: #999;
+}

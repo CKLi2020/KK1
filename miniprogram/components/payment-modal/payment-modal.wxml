@@ -1,0 +1,97 @@
+<!-- 付费选择弹窗组件 -->
+<view class="modal-mask" wx:if="{{show}}" catchtouchmove="preventTouchMove">
+  <view class="modal-container">
+    <!-- 关闭按钮 -->
+    <view class="close-btn" bindtap="onClose">
+      <text class="close-icon">×</text>
+    </view>
+    
+    <!-- 头部 -->
+    <view class="modal-header">
+      <text class="modal-title">选择使用方式</text>
+      <!-- membership subtitle removed -->
+    </view>
+    
+    <!-- 两栏布局 -->
+    <view class="cards-wrapper">
+      <!-- 左边：免费试用卡片 -->
+      <view class="plan-card free-card">
+        <view class="card-ribbon free-ribbon">免费</view>
+        <view class="card-content">
+          <view class="plan-icon">🆓</view>
+          <view class="plan-name">试用版</view>
+          <view class="plan-price">
+            <text class="price-currency">¥</text>
+            <text class="price-value">0</text>
+          </view>
+          
+          <view class="plan-features">
+            <!-- freeCharLimit removed -->
+            <view class="feature-row">
+              <text class="feature-dot warning-dot">●</text>
+              <text class="feature-text">带水印</text>
+            </view>
+          </view>
+          
+          <button class="plan-btn free-plan-btn" bindtap="onSelectFree">
+            立即体验
+          </button>
+        </view>
+      </view>
+      
+      <!-- 右边：付费会员卡片 -->
+      <view class="plan-card vip-card">
+        <view class="card-ribbon vip-ribbon">推荐</view>
+        <view class="card-content">
+          <view class="plan-icon">👑</view>
+          <view class="plan-name">会员版</view>
+          
+          <view class="plan-features vip-features">
+            <view class="feature-row">
+              <text class="feature-dot success-dot">●</text>
+              <text class="feature-text">无字数限制</text>
+            </view>
+            <view class="feature-row">
+              <text class="feature-dot success-dot">●</text>
+              <text class="feature-text">无水印</text>
+            </view>
+          </view>
+          
+          <!-- 套餐选择区域 -->
+          <view class="packages-scroll">
+            <view 
+              class="package-option {{selectedPackageId === item.id ? 'selected' : ''}}" 
+              wx:for="{{packages}}" 
+              wx:key="id"
+              bindtap="onSelectPackage"
+              data-id="{{item.id}}"
+            >
+              <view class="package-left">
+                <view class="package-radio {{selectedPackageId === item.id ? 'checked' : ''}}">
+                  <text wx:if="{{selectedPackageId === item.id}}">✓</text>
+                </view>
+                <view class="package-info">
+                  <text class="pkg-name">{{item.name}}</text>
+                  <text class="pkg-desc">{{item.description}}</text>
+                </view>
+              </view>
+              <view class="package-price-box">
+                <text class="pkg-symbol">¥</text>
+                <text class="pkg-num">{{item.price}}</text>
+              </view>
+            </view>
+          </view>
+          
+          <button class="plan-btn vip-plan-btn" bindtap="onPay" disabled="{{!selectedPackageId}}">
+            {{selectedPackageId ? '立即开通' : '请选择套餐'}}
+          </button>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 底部提示 -->
+    <view class="modal-footer">
+      <text class="footer-text">开通会员后立即生效，可享受无限制服务</text>
+    </view>
+  </view>
+</view>

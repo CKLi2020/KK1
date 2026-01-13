@@ -1,0 +1,10 @@
+{
+  "name": "handwriting-miniprogram",
+  "version": "1.0.0",
+  "description": "手写文字生成微信小程序",
+  "main": "app.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "author": "",
+  "license": "MIT"
+}

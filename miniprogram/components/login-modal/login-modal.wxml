@@ -1,0 +1,41 @@
+<!-- 登录弹窗组件 -->
+<view class="modal-mask" wx:if="{{show}}" catchtouchmove="preventTouchMove">
+  <view class="modal-container">
+    <!-- 关闭按钮 -->
+    <view class="close-btn" bindtap="onClose">×</view>
+    
+    <!-- 标题 -->
+    <view class="modal-title">欢迎使用手写模拟器</view>
+    
+    <!-- 说明文字 -->
+    <view class="modal-desc">
+      <view class="desc-item">
+        <text class="icon">✨</text>
+        <text>登录后可享受更多功能</text>
+      </view>
+      <view class="desc-item">
+        <text class="icon">📝</text>
+        <text>未登录用户生成内容将带有水印</text>
+      </view>
+      <view class="desc-item">
+        <text class="icon">👑</text>
+        <text>会员用户无字数限制，无水印</text>
+      </view>
+    </view>
+    
+    <!-- 按钮区域 -->
+    <view class="modal-buttons">
+      <button class="btn-login" bindtap="onLogin">
+        微信快捷登录
+      </button>
+      <view class="btn-skip" bindtap="onSkip">
+        暂不登录，继续使用
+      </view>
+    </view>
+    
+    <!-- 提示 -->
+    <view class="modal-tip">
+      未登录也可使用全部功能，但生成内容带水印
+    </view>
+  </view>
+</view>

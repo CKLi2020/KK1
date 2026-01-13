@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>API测试</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background: #d4edda; }
+        .error { background: #f8d7da; }
+        button { padding: 8px 16px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>手写生成器 API 测试</h1>
+    
+    <button onclick="testFonts()">测试1: 加载字体列表</button>
+    <div id="test1" class="test">等待测试...</div>
+    
+    <button onclick="testFileUpload()">测试2: 测试文件上传</button>
+    <div id="test2" class="test">等待测试...</div>
+    
+    <button onclick="testPreview()">测试3: 测试预览生成</button>
+    <div id="test3" class="test">等待测试...</div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000';
+
+        async function testFonts() {
+            const div = document.getElementById('test1');
+            try {
+                div.innerHTML = '测试中...';
+                const response = await fetch(`${API_BASE}/api/miniprogram/fonts`);
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.fonts && data.fonts.length > 0) {
+                    div.className = 'test success';
+                    div.innerHTML = `✅ 成功！加载了 ${data.fonts.length} 个字体<br>` +
+                        `第一个字体: ${data.fonts[0].name || data.fonts[0].filename}`;
+                } else {
+                    div.className = 'test error';
+                    div.innerHTML = '❌ 失败：' + JSON.stringify(data);
+                }
+            } catch (err) {
+                div.className = 'test error';
+                div.innerHTML = '❌ 错误: ' + err.message;
+            }
+        }
+
+        async function testFileUpload() {
+            const div = document.getElementById('test2');
+            try {
+                div.innerHTML = '测试中...';
+                
+                // 创建测试文本
+                const testText = '这是一个测试文件\n测试文件上传功能';
+                const blob = new Blob([testText], { type: 'text/plain' });
+                const formData = new FormData();
+                formData.append('file', blob, 'test.txt');
+                
+                const response = await fetch(`${API_BASE}/api/textfileprocess`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.text) {
+                    div.className = 'test success';
+                    div.innerHTML = `✅ 成功！提取文本:<br>${data.text}`;
+                } else {
+                    div.className = 'test error';
+                    div.innerHTML = '❌ 失败：' + JSON.stringify(data);
+                }
+            } catch (err) {
+                div.className = 'test error';
+                div.innerHTML = '❌ 错误: ' + err.message;
+            }
+        }
+
+        async function testPreview() {
+            const div = document.getElementById('test3');
+            try {
+                div.innerHTML = '测试中...';
+                
+                const formData = new FormData();
+                formData.append('text', '测试文字');
+                formData.append('font', '司马彦硬笔手写体.TTF');
+                formData.append('font_size', '90');
+                formData.append('line_spacing', '120');
+                formData.append('word_spacing', '10');
+                formData.append('margin_top', '150');
+                formData.append('margin_bottom', '150');
+                formData.append('margin_left', '150');
+                formData.append('margin_right', '150');
+                formData.append('width', '2480');
+                formData.append('height', '3508');
+                formData.append('is_underlined', 'true');
+                formData.append('line_color', 'red');
+                formData.append('paper_type', 'lined');
+                formData.append('fill', '(0, 0, 0, 255)');
+                formData.append('enableEnglishSpacing', 'false');
+                
+                const response = await fetch(`${API_BASE}/api/generate_handwriting`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    div.className = 'test success';
+                    div.innerHTML = `✅ 成功！生成了图片 (${blob.size} 字节)<br>` +
+                        `<img src="${url}" style="max-width: 300px; border: 1px solid #ccc;">`;
+                } else {
+                    const text = await response.text();
+                    div.className = 'test error';
+                    div.innerHTML = '❌ 失败: ' + text;
+                }
+            } catch (err) {
+                div.className = 'test error';
+                div.innerHTML = '❌ 错误: ' + err.message;
+            }
+        }
+    </script>
+</body>
+</html>

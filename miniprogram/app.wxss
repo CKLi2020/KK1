@@ -1,0 +1,259 @@
+/**app.wxss**/
+/* 全局变量 */
+page {
+  --primary-color: #6366F1;
+  --primary-light: #818CF8;
+  --primary-dark: #4F46E5;
+  --secondary-color: #EC4899;
+  --accent-gradient: linear-gradient(135deg, #6366F1 0%, #EC4899 100%);
+  --card-bg: rgba(238, 242, 255, 0.95);
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6B7280;
+  --border-color: #E5E7EB;
+  --bg-color: #F3F4F6;
+  --success-color: #10B981;
+  --warning-color: #F59E0B;
+  
+  background: linear-gradient(180deg, #EEF2FF 0%, #FCE7F3 50%, #F3F4F6 100%);
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-size: 28rpx;
+  color: var(--text-primary);
+}
+
+.container {
+  padding: 24rpx;
+  padding-bottom: 50rpx;
+}
+
+/* 顶部装饰 */
+.header-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300rpx;
+  background: var(--accent-gradient);
+  border-radius: 0 0 60rpx 60rpx;
+  z-index: -1;
+}
+
+/* 通用卡片样式 - 毛玻璃效果 */
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20rpx;
+  padding: 20rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 8rpx 32rpx rgba(99, 102, 241, 0.08),
+              0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  border: 1rpx solid rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+}
+
+.card:active {
+  transform: scale(0.99);
+  box-shadow: 0 4rpx 16rpx rgba(99, 102, 241, 0.12);
+}
+
+.card-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12rpx;
+  padding-bottom: 8rpx;
+  border-bottom: 2rpx solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.card-title::before {
+  content: '';
+  width: 5rpx;
+  height: 24rpx;
+  background: var(--accent-gradient);
+  border-radius: 3rpx;
+}
+
+.card-desc {
+  font-size: 22rpx;
+  color: var(--text-muted);
+  margin-top: -10rpx;
+  margin-bottom: 12rpx;
+  display: block;
+}
+
+/* 主按钮 - 渐变效果 */
+.btn-primary {
+  background: var(--accent-gradient);
+  color: #fff;
+  border-radius: 16rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  padding: 28rpx 0;
+  text-align: center;
+  box-shadow: 0 8rpx 24rpx rgba(99, 102, 241, 0.35);
+  border: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+}
+
+.btn-primary:active {
+  transform: translateY(2rpx);
+  box-shadow: 0 4rpx 12rpx rgba(99, 102, 241, 0.4);
+}
+
+/* 次要按钮 */
+.btn-secondary {
+  background: #fff;
+  color: var(--primary-color);
+  border: 2rpx solid var(--primary-light);
+  border-radius: 16rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  padding: 24rpx 0;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:active {
+  background: linear-gradient(135deg, #EEF2FF 0%, #FCE7F3 100%);
+  border-color: var(--primary-color);
+}
+
+/* 表单样式 */
+.form-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12rpx 0;
+  border-bottom: 1rpx solid var(--border-color);
+  transition: background 0.2s ease;
+}
+
+.form-item:last-child {
+  border-bottom: none;
+}
+
+.form-item:active {
+  background: rgba(99, 102, 241, 0.04);
+  margin: 0 -20rpx;
+  padding: 12rpx 20rpx;
+  border-radius: 12rpx;
+}
+
+.form-label {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  width: 140rpx;
+  font-weight: 500;
+}
+
+.form-input {
+  flex: 1;
+  text-align: right;
+  font-size: 28rpx;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.form-slider {
+  flex: 1;
+  margin-left: 20rpx;
+}
+
+.form-value {
+  width: 100rpx;
+  text-align: right;
+  font-size: 26rpx;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* 文本域样式 */
+.textarea-wrapper {
+  background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+  border-radius: 12rpx;
+  padding: 12rpx;
+  border: 2rpx solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.textarea-wrapper:focus-within {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 4rpx rgba(99, 102, 241, 0.1);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 160rpx;
+  font-size: 28rpx;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+/* 加载中 - 更美观的设计 */
+.loading-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-content {
+  background: #fff;
+  padding: 48rpx 72rpx;
+  border-radius: 24rpx;
+  text-align: center;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.15);
+}
+
+.loading-text {
+  margin-top: 24rpx;
+  color: var(--text-secondary);
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+/* Switch 开关美化 */
+switch .wx-switch-input {
+  background: #E5E7EB !important;
+  border: none !important;
+}
+
+switch .wx-switch-input::before {
+  background: var(--primary-color) !important;
+}
+
+switch[checked] .wx-switch-input {
+  background: linear-gradient(135deg, #6366F1 0%, #EC4899 100%) !important;
+}
+
+/* Slider 滑块美化 */
+.form-slider slider {
+  margin: 0;
+}
+

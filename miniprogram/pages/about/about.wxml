@@ -1,0 +1,74 @@
+<!--pages/about/about.wxml-->
+<view class="container">
+  <!-- 应用信息 -->
+  <view class="header">
+    <view class="app-icon">✍️</view>
+    <text class="app-name">手写文字生成器</text>
+    <text class="app-version">v{{version}}</text>
+  </view>
+
+  <!-- 功能介绍 -->
+  <view class="card">
+    <view class="card-title"><text class="card-icon">✨</text>功能特色</view>
+    
+    <view class="feature-list">
+      <view class="feature-item" wx:for="{{features}}" wx:key="title">
+        <view class="feature-dot"></view>
+        <view class="feature-content">
+          <text class="feature-title">{{item.title}}</text>
+          <text class="feature-desc">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 使用说明 -->
+  <view class="card">
+    <view class="card-title"><text class="card-icon">📖</text>使用说明</view>
+    
+    <view class="step-list">
+      <view class="step-item">
+        <text class="step-number">1</text>
+        <text class="step-text">在主页面输入要转换的文字</text>
+      </view>
+      <view class="step-item">
+        <text class="step-number">2</text>
+        <text class="step-text">选择喜欢的字体样式</text>
+      </view>
+      <view class="step-item">
+        <text class="step-number">3</text>
+        <text class="step-text">调整字体大小、边距等参数</text>
+      </view>
+      <view class="step-item">
+        <text class="step-number">4</text>
+        <text class="step-text">点击「预览效果」查看结果</text>
+      </view>
+      <view class="step-item">
+        <text class="step-number">5</text>
+        <text class="step-text">满意后点击「生成图片」或「生成PDF」</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 项目信息 -->
+  <view class="card">
+    <view class="card-title"><text class="card-icon">💻</text>关于项目</view>
+    
+    <view class="info-item">
+      <text class="info-label">开源地址</text>
+      <text class="info-link" bindtap="onCopyLink">github.com/14790897/handwriting_web</text>
+    </view>
+    
+    <view class="info-item">
+      <text class="info-label">技术栈</text>
+      <text class="info-value">微信小程序 + Flask + handright</text>
+    </view>
+  </view>
+
+  <!-- 分享按钮 -->
+  <button class="share-btn" open-type="share">
+    <text>🔗 分享给朋友</text>
+  </button>
+
+  <view class="bottom-space"></view>
+</view>

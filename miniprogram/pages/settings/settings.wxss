@@ -1,0 +1,88 @@
+/* pages/settings/settings.wxss */
+
+/* 页面头部 */
+.page-header {
+  padding: 40rpx 24rpx 30rpx;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 44rpx;
+  font-weight: 700;
+  background: linear-gradient(135deg, #6366F1 0%, #EC4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8rpx;
+}
+
+.page-subtitle {
+  font-size: 26rpx;
+  color: #9CA3AF;
+}
+
+.card-desc {
+  font-size: 24rpx;
+  color: #9CA3AF;
+  margin-bottom: 20rpx;
+  line-height: 1.6;
+  padding: 12rpx 16rpx;
+  background: rgba(99, 102, 241, 0.05);
+  border-radius: 12rpx;
+  border-left: 4rpx solid #6366F1;
+}
+
+.form-item-vertical {
+  padding: 20rpx 0;
+}
+
+.form-input-full {
+  width: 100%;
+  padding: 20rpx 24rpx;
+  background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+  border-radius: 16rpx;
+  margin: 10rpx 0;
+  font-size: 26rpx;
+  color: #1F2937;
+  border: 1rpx solid #E5E7EB;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.form-input-full:focus {
+  border-color: #6366F1;
+  box-shadow: 0 0 0 4rpx rgba(99, 102, 241, 0.1);
+}
+
+.action-section {
+  margin-top: 40rpx;
+  padding: 0 20rpx;
+}
+
+.bottom-space {
+  height: 100rpx;
+}
+
+/* 卡片图标 */
+.card-icon {
+  font-size: 36rpx;
+  margin-right: 8rpx;
+}
+
+/* 参数提示标签 */
+.param-hint {
+  display: inline-flex;
+  align-items: center;
+  font-size: 20rpx;
+  color: #6366F1;
+  background: rgba(99, 102, 241, 0.1);
+  padding: 4rpx 12rpx;
+  border-radius: 16rpx;
+  margin-left: 8rpx;
+}
+
+/* 滑块轨道颜色 */
+.form-slider {
+  flex: 1;
+}
+

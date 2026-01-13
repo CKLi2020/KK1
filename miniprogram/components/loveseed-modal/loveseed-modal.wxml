@@ -1,0 +1,57 @@
+<!-- components/loveseed-modal/loveseed-modal.wxml -->
+<view class="loveseed-modal" wx:if="{{show}}" catchtouchmove="preventMove">
+  <!-- 遮罩层 -->
+  <view class="modal-mask" bindtap="onClose"></view>
+  
+  <!-- 主内容 -->
+  <view class="modal-content">
+    <!-- 关闭按钮 -->
+    <view class="close-btn" bindtap="onClose">✕</view>
+    
+    <!-- 图标 -->
+    <view class="modal-icon">🫘</view>
+    
+    <!-- 标题 -->
+    <view class="modal-title">相思豆</view>
+    
+    <!-- 描述 -->
+    <view class="modal-desc">输入相思豆即可生成，或点击下方按钮在浏览器中获取</view>
+    
+    <!-- 输入框 -->
+    <view class="input-wrapper">
+      <input 
+        class="loveseed-input" 
+        type="number"
+        maxlength="6"
+        placeholder="请输入6位数字"
+        value="{{inputValue}}"
+        bindinput="onInput"
+        focus="{{show}}"
+      />
+      <view class="input-decoration">
+        <view class="decoration-dot"></view>
+        <view class="decoration-dot"></view>
+        <view class="decoration-dot"></view>
+      </view>
+    </view>
+    
+    <!-- 按钮组 -->
+    <view class="button-group">
+      <button class="modal-btn primary-btn" bindtap="onConfirm">
+        <text class="btn-icon">✓</text>
+        <text>确认使用</text>
+      </button>
+      <button class="modal-btn secondary-btn" bindtap="onGetLoveseed">
+        <text class="btn-icon">🛒</text>
+        <text>获取相思豆</text>
+        <text class="hot-badge">🔥</text>
+      </button>
+    </view>
+    
+    <!-- 提示信息 -->
+    <view class="modal-tip">
+      <text class="tip-icon">💡</text>
+      <text>没有相思豆？点击“获取相思豆”在浏览器中获取</text>
+    </view>
+  </view>
+</view>

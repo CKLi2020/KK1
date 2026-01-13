@@ -1,0 +1,62 @@
+services:
+  # MySQL 数据库服务
+  mysql:
+    image: mysql:8.0
+    container_name: handwriting_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-handwriting_2024}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-mydatabase}
+      MYSQL_USER: ${MYSQL_USER:-myuser}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-handwriting_2024}
+      TZ: Asia/Shanghai
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
+
+  # 后端服务
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dockerfile.backend
+    container_name: handwriting_backend
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - ./ttf_files:/app/font_assets
+      - ./logs:/app/logs
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: ${MYSQL_USER:-myuser}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-handwriting_2024}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-mydatabase}
+      LOCAL_TEST_MODE: ${LOCAL_TEST_MODE:-true}
+      PINGPP_API_KEY: ${PINGPP_API_KEY:-}
+      PINGPP_APP_ID: ${PINGPP_APP_ID:-}
+      WX_APPID: ${WX_APPID:-}
+      WX_SECRET: ${WX_SECRET:-}
+      ENABLE_USER_AUTH: ${ENABLE_USER_AUTH:-true}
+      ADMIN_OPENIDS: ${ADMIN_OPENIDS:-}
+      TZ: Asia/Shanghai
+
+  # 前端服务
+  frontend:
+    build:
+      context: ./web_frontend
+      dockerfile: Dockerfile
+    container_name: handwriting_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "2345:80"
+
+# 数据持久化卷
+volumes:
+  mysql_data:
+    driver: local

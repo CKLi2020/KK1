@@ -1,0 +1,229 @@
+/* pages/welcome/welcome.wxss */
+.welcome-container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 背景装饰 */
+.bg-decoration {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: moveBackground 20s linear infinite;
+  opacity: 0.3;
+}
+
+@keyframes moveBackground {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+/* 主要内容 */
+.content {
+  position: relative;
+  z-index: 10;
+  width: 90%;
+  max-width: 600px;
+  padding: 60rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Logo 区域 */
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 80rpx;
+}
+
+.logo-icon {
+  font-size: 120rpx;
+  margin-bottom: 30rpx;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.app-name {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 16rpx;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  letter-spacing: 2rpx;
+}
+
+.app-subtitle {
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 4rpx;
+}
+
+/* 特性展示 */
+.features {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 80rpx;
+  gap: 20rpx;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 20rpx;
+  padding: 30rpx 20rpx;
+  flex: 1;
+  transition: all 0.3s ease;
+}
+
+.feature-item.fade-in-1 { animation: fadeIn 0.6s ease-out 0.2s both; }
+.feature-item.fade-in-2 { animation: fadeIn 0.6s ease-out 0.4s both; }
+.feature-item.fade-in-3 { animation: fadeIn 0.6s ease-out 0.6s both; }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.feature-icon {
+  font-size: 50rpx;
+  margin-bottom: 16rpx;
+}
+
+/* 图标组（用于并排显示多个图标） */
+.feature-icon-group {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  margin-bottom: 16rpx;
+}
+
+.feature-icon-small {
+  font-size: 44rpx;
+}
+
+.feature-text {
+  font-size: 22rpx;
+  color: #ffffff;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* 按钮容器 */
+.button-container {
+  width: 100%;
+  margin-bottom: 60rpx;
+}
+
+.start-button {
+  width: 100%;
+  height: 100rpx;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border-radius: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  animation: pulse 2s ease-in-out infinite;
+  padding: 0 40rpx;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 15px 40px rgba(245, 87, 108, 0.6);
+    transform: scale(1.02);
+  }
+}
+
+.start-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.start-button:active::before {
+  left: 100%;
+}
+
+.button-text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #ffffff;
+  margin-right: 10rpx;
+  letter-spacing: 2rpx;
+  white-space: nowrap;
+}
+
+.button-arrow {
+  font-size: 32rpx;
+  color: #ffffff;
+  font-weight: bold;
+  animation: arrowMove 1s ease-in-out infinite;
+}
+
+@keyframes arrowMove {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
+
+/* 底部提示 */
+.footer-tips {
+  width: 100%;
+  text-align: center;
+  animation: fadeIn 0.8s ease-out 0.8s both;
+}
+
+.tip-text {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.8);
+  font-style: italic;
+  letter-spacing: 2rpx;
+}
