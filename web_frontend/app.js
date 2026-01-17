@@ -3,7 +3,7 @@
 
 // ========== 全局配置 ==========
 // 部署配置：设置为false时自动使用服务器地址
-const LOCAL_TEST_MODE = true;  // 本地测试时设为true，部署时设为false
+const LOCAL_TEST_MODE = false;  // 本地测试时设为true，部署时设为false
 const SERVER_IP = '47.107.148.252';  // 服务器公网地址
 
 // API基础地址配置

@@ -32,7 +32,7 @@ App({
 
   globalData: {
     // 配置：本地测试模式开关
-    LOCAL_TEST_MODE: true,  // 本地测试时设为true，部署时设为false
+    LOCAL_TEST_MODE: false,  // 本地测试时设为true，部署时设为false
     SERVER_IP: '47.107.148.252',  // 服务器公网地址
     
     // API 服务器地址 - 本地开发时使用
