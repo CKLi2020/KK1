@@ -2073,13 +2073,18 @@ def create_payment_charge_endpoint():
     try:
         from loveseed_service import create_payment_order
         
-        data = request.get_json()
+        data = request.get_json(silent=True) or {}
         package_id = data.get("package_id")
         channel = data.get("channel", "wx_pub_qr")  # 默认微信扫码
         client_ip = request.remote_addr or "127.0.0.1"
         
-        if not package_id:
+        if package_id is None or package_id == "":
             return jsonify({"status": "error", "message": "缺少套餐ID"}), 400
+
+        try:
+            package_id = int(package_id)
+        except (TypeError, ValueError):
+            return jsonify({"status": "error", "message": "套餐ID必须是数字"}), 400
         
         result = create_payment_order(package_id, channel, client_ip)
         

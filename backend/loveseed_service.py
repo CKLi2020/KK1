@@ -7,6 +7,7 @@ import random
 import string
 import mysql.connector
 import logging
+from decimal import Decimal
 from datetime import datetime, timedelta
 from payment_service import (
     create_payment_charge, 
@@ -504,7 +505,20 @@ def get_all_packages():
         
         cursor.execute("SELECT * FROM packages WHERE is_active = 1 ORDER BY id")
         packages = cursor.fetchall()
-        
+
+        # Normalize numeric types for JSON serialization / frontend usage.
+        for pkg in packages:
+            if isinstance(pkg.get("price"), Decimal):
+                pkg["price"] = float(pkg["price"])
+            if isinstance(pkg.get("unit_price"), Decimal):
+                pkg["unit_price"] = float(pkg["unit_price"])
+            if pkg.get("download_count") is not None:
+                pkg["download_count"] = int(pkg["download_count"])
+            if pkg.get("duration_days") is not None:
+                pkg["duration_days"] = int(pkg["duration_days"])
+            if pkg.get("is_active") is not None:
+                pkg["is_active"] = int(pkg["is_active"])
+
         return packages
         
     except Exception as e:

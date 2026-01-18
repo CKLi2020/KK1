@@ -599,7 +599,7 @@
                 card.innerHTML = `
                     ${badgeHTML}
                     <div class="package-name">${pkg.name}</div>
-                    <div class="package-price">¥${pkg.price.toFixed(2)}</div>
+                    <div class="package-price">¥${Number(pkg.price).toFixed(2)}</div>
                     <div class="package-desc">${pkg.description}</div>
                 `;
                 
