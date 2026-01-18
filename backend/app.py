@@ -2327,6 +2327,7 @@ def admin_create_loveseed():
         data = request.get_json()
         loveseed_code = data.get("loveseed_code", "").strip()
         download_count = data.get("download_count")
+        package_id = data.get("package_id")
         
         if not loveseed_code or not download_count:
             return jsonify({"status": "error", "message": "缺少必要参数"}), 400
@@ -2341,7 +2342,7 @@ def admin_create_loveseed():
         except ValueError:
             return jsonify({"status": "error", "message": "下载次数必须是数字"}), 400
         
-        result = create_loveseed_code_manual(loveseed_code, download_count)
+        result = create_loveseed_code_manual(loveseed_code, download_count, package_id=package_id)
         
         if result:
             return jsonify({

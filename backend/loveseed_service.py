@@ -784,12 +784,23 @@ def create_loveseed_code_manual(loveseed_code, download_count, package_id=None):
             logger.error(f"相思豆码已存在: {loveseed_code}")
             return None
         
-        # 创建相思豆码（order_id设为0表示手动创建）
+        # 选择一个有效套餐（避免 packages 外键失败）
+        resolved_package_id = int(package_id) if package_id is not None else int(os.getenv("DEFAULT_MANUAL_PACKAGE_ID", "3"))
+
+        # 为手动相思豆创建一条订单记录（避免 orders/loveseed_codes 的外键失败）
+        manual_order_no = f"MANUAL{datetime.now().strftime('%Y%m%d%H%M%S')}{loveseed_code}"
         cursor.execute(
-            """INSERT INTO loveseed_codes 
-               (loveseed_code, order_id, package_id, total_downloads, remaining_downloads, status) 
-               VALUES (%s, 0, %s, %s, %s, 'active')""",
-            (loveseed_code, package_id or 0, download_count, download_count)
+            """INSERT INTO orders (order_no, package_id, amount, status, paid_at)
+               VALUES (%s, %s, %s, 'paid', NOW())""",
+            (manual_order_no, resolved_package_id, 0)
+        )
+        order_id = cursor.lastrowid
+
+        cursor.execute(
+            """INSERT INTO loveseed_codes
+               (loveseed_code, order_id, package_id, billing_type, total_downloads, remaining_downloads, status)
+               VALUES (%s, %s, %s, 'count', %s, %s, 'active')""",
+            (loveseed_code, order_id, resolved_package_id, download_count, download_count)
         )
         
         conn.commit()
@@ -798,6 +809,9 @@ def create_loveseed_code_manual(loveseed_code, download_count, package_id=None):
         
         return {
             'loveseed_code': loveseed_code,
+            'order_id': order_id,
+            'order_no': manual_order_no,
+            'package_id': resolved_package_id,
             'total_downloads': download_count,
             'remaining_downloads': download_count,
             'status': 'active'
