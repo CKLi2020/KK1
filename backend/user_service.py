@@ -55,13 +55,32 @@ def get_db_connection():
     """获取数据库连接"""
     if LOCAL_TEST_MODE:
         return None  # 本地测试模式不需要数据库
-    return mysql.connector.connect(
-        host=os.getenv("MYSQL_HOST", "localhost"),
-        user=os.getenv("MYSQL_USER", "root"),
-        password=os.getenv("MYSQL_PASSWORD", ""),
-        database=os.getenv("MYSQL_DATABASE", "mydatabase"),
-        charset='utf8mb4'
-    )
+    mysql_host = os.getenv("MYSQL_HOST", "localhost")
+    mysql_user = os.getenv("MYSQL_USER", "root")
+    mysql_password = os.getenv("MYSQL_PASSWORD", "")
+    mysql_database = os.getenv("MYSQL_DATABASE", "mydatabase")
+
+    # Prefer Unix socket when talking to local MySQL on Linux.
+    # This avoids common host-based privilege mismatches like 'user'@'localhost' vs 'user'@'127.0.0.1'.
+    mysql_unix_socket = os.getenv("MYSQL_UNIX_SOCKET")
+    if not mysql_unix_socket and os.name != "nt" and mysql_host in {"localhost", "127.0.0.1"}:
+        for candidate in ("/run/mysqld/mysqld.sock", "/var/run/mysqld/mysqld.sock"):
+            if os.path.exists(candidate):
+                mysql_unix_socket = candidate
+                break
+
+    connect_kwargs = {
+        "user": mysql_user,
+        "password": mysql_password,
+        "database": mysql_database,
+        "charset": "utf8mb4",
+    }
+    if mysql_unix_socket:
+        connect_kwargs["unix_socket"] = mysql_unix_socket
+    else:
+        connect_kwargs["host"] = mysql_host
+
+    return mysql.connector.connect(**connect_kwargs)
 
 
 def wx_code_to_openid(code):

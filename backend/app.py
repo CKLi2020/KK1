@@ -2318,13 +2318,19 @@ def admin_create_loveseed():
     """
     手动创建相思豆码（管理员）
     """
-    admin_token = request.headers.get("X-Admin-Token") or request.json.get("admin_token") if request.json else None
+    payload = request.get_json(silent=True) or {}
+    admin_token = (
+        request.headers.get("X-Admin-Token")
+        or payload.get("admin_token")
+        or request.args.get("admin_token")
+        or request.form.get("admin_token")
+    )
     
     if not LOCAL_TEST_MODE and admin_token != os.getenv("ADMIN_TOKEN", "admin123"):
         return jsonify({"status": "error", "message": "权限不足"}), 403
     
     try:
-        data = request.get_json()
+        data = payload or (request.form.to_dict() if request.form else {})
         loveseed_code = data.get("loveseed_code", "").strip()
         download_count = data.get("download_count")
         package_id = data.get("package_id")
