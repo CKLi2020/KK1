@@ -7,7 +7,10 @@ const LOCAL_TEST_MODE = false;  // 本地测试时设为true，部署时设为fa
 const SERVER_IP = '47.107.148.252';  // 服务器公网地址
 
 // API基础地址配置
-const API_BASE_URL = LOCAL_TEST_MODE ? 'http://127.0.0.1:5000' : `http://${SERVER_IP}:5000`;
+// 生产环境建议走同源 /api，由 Nginx 反代到 127.0.0.1:5000（无需暴露 5000 端口）
+const API_BASE_URL = LOCAL_TEST_MODE
+    ? 'http://127.0.0.1:5000'
+    : `${window.location.protocol}//${window.location.host}`;
 
 // 纸张尺寸配置（300DPI）
 const PAPER_SIZES = {
