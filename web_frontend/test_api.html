@@ -24,7 +24,12 @@
     <div id="test3" class="test">等待测试...</div>
 
     <script>
-        const API_BASE = 'http://localhost:5000';
+        // 默认使用同源（部署到服务器后由 Nginx 反代 /api 到后端）
+        // 本地要直连时可改成 true
+        const LOCAL_TEST_MODE = false;
+        const API_BASE = LOCAL_TEST_MODE
+            ? 'http://127.0.0.1:5000'
+            : `${window.location.protocol}//${window.location.host}`;
 
         async function testFonts() {
             const div = document.getElementById('test1');

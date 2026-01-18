@@ -522,7 +522,12 @@
     </div>
 
     <script>
-        const API_BASE_URL = 'http://localhost:5000';
+        // 部署到服务器后，通过同源 /api 访问（由 Nginx 反代到 127.0.0.1:5000）
+        // 本地开发需要直连后端时，把 LOCAL_TEST_MODE 改为 true
+        const LOCAL_TEST_MODE = false;
+        const API_BASE_URL = LOCAL_TEST_MODE
+            ? 'http://127.0.0.1:5000'
+            : `${window.location.protocol}//${window.location.host}`;
         
         // 管理员凭证（默认账户）
         const ADMIN_CREDENTIALS = {
