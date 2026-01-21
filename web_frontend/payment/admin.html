@@ -459,6 +459,7 @@
             <div class="tab active" onclick="switchTab('orders')">📋 订单列表</div>
             <div class="tab" onclick="switchTab('loveseeds')">💎 相思豆管理</div>
             <div class="tab" onclick="switchTab('create')">➕ 创建相思豆</div>
+            <div class="tab" onclick="switchTab('siteconfig')">🏗️ 站点配置</div>
         </div>
 
         <!-- 订单列表标签页 -->
@@ -516,6 +517,34 @@
                     <input type="number" id="create-count" placeholder="例如：20" min="1">
                 </div>
                 <button class="btn btn-success" onclick="createLoveseed()">✨ 创建相思豆</button>
+            </div>
+        </div>
+
+        <!-- 站点配置标签页 -->
+        <div id="siteconfig-tab" class="tab-content">
+            <div class="panel">
+                <h2>站点配置</h2>
+                <p style="color: #666; margin-bottom: 20px;">配置首页页脚的版权信息、ICP备案号和友情链接</p>
+                <div id="siteconfig-message"></div>
+                <div id="siteconfig-loading" class="loading" style="display: none;">正在加载配置...</div>
+                
+                <div class="form-group">
+                    <label>版权信息</label>
+                    <input type="text" id="config-copyright" placeholder="例如：Copyright © 2025 一纸相思手写坊 All Rights Reserved.">
+                </div>
+                
+                <div class="form-group">
+                    <label>ICP备案号</label>
+                    <input type="text" id="config-icp" placeholder="例如：京ICP备XXXXXXXX号-1">
+                    <small style="color: #999; display: block; margin-top: 5px;">留空则不显示</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>友情链接 <button class="btn btn-success" onclick="addFriendLink()" style="padding: 5px 15px; font-size: 12px;">+ 添加</button></label>
+                    <div id="friend-links-container"></div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveSiteConfig()">💾 保存配置</button>
             </div>
         </div>
     </div>
@@ -627,6 +656,8 @@
                 loadOrders();
             } else if (tabName === 'loveseeds') {
                 loadLoveseeds();
+            } else if (tabName === 'siteconfig') {
+                loadSiteConfig();
             }
         }
 
@@ -944,6 +975,116 @@
             document.getElementById('total-loveseeds').textContent = uniqueLoveseeds.size;
             const activeLoveseeds = ordersData.filter(o => o.loveseed_status === 'active').length;
             document.getElementById('active-loveseeds').textContent = activeLoveseeds;
+        }
+
+        // 加载站点配置
+        let friendLinksData = [];
+        async function loadSiteConfig() {
+            const loading = document.getElementById('siteconfig-loading');
+            loading.style.display = 'block';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/site-config`);
+                const data = await response.json();
+
+                loading.style.display = 'none';
+
+                if (data.status === 'success' && data.data) {
+                    const config = data.data;
+                    document.getElementById('config-copyright').value = config.copyright_text || '';
+                    document.getElementById('config-icp').value = config.icp_beian || '';
+                    friendLinksData = config.friend_links || [];
+                    renderFriendLinks();
+                } else {
+                    showMessage('siteconfig-message', data.message || '加载失败', 'error');
+                }
+            } catch (error) {
+                loading.style.display = 'none';
+                showMessage('siteconfig-message', '网络错误：' + error.message, 'error');
+            }
+        }
+
+        // 渲染友情链接
+        function renderFriendLinks() {
+            const container = document.getElementById('friend-links-container');
+            if (friendLinksData.length === 0) {
+                container.innerHTML = '<p style="color: #999;">暂无友情链接</p>';
+                return;
+            }
+
+            let html = '';
+            friendLinksData.forEach((link, index) => {
+                html += `
+                    <div class="form-group" style="display: flex; gap: 10px; align-items: flex-start; padding: 10px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px;">
+                        <div style="flex: 1;">
+                            <input type="text" placeholder="链接名称" value="${link.name || ''}" 
+                                   onchange="updateFriendLink(${index}, 'name', this.value)" 
+                                   style="margin-bottom: 5px;">
+                            <input type="url" placeholder="链接地址 (https://)" value="${link.url || ''}" 
+                                   onchange="updateFriendLink(${index}, 'url', this.value)">
+                        </div>
+                        <button class="btn btn-danger" onclick="removeFriendLink(${index})" style="padding: 8px 15px; margin: 0;">删除</button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // 添加友情链接
+        function addFriendLink() {
+            friendLinksData.push({ name: '', url: '' });
+            renderFriendLinks();
+        }
+
+        // 更新友情链接
+        function updateFriendLink(index, field, value) {
+            if (friendLinksData[index]) {
+                friendLinksData[index][field] = value;
+            }
+        }
+
+        // 删除友情链接
+        function removeFriendLink(index) {
+            if (confirm('确定要删除这个友情链接吗？')) {
+                friendLinksData.splice(index, 1);
+                renderFriendLinks();
+            }
+        }
+
+        // 保存站点配置
+        async function saveSiteConfig() {
+            const copyright = document.getElementById('config-copyright').value.trim();
+            const icp = document.getElementById('config-icp').value.trim();
+
+            // 过滤空链接
+            const validLinks = friendLinksData.filter(link => link.name && link.url);
+
+            const config = {
+                copyright_text: copyright,
+                icp_beian: icp,
+                friend_links: validLinks
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/site-config`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Admin-Token': ADMIN_TOKEN
+                    },
+                    body: JSON.stringify(config)
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showMessage('siteconfig-message', '配置保存成功！刷新首页即可查看效果', 'success');
+                } else {
+                    showMessage('siteconfig-message', data.message || '保存失败', 'error');
+                }
+            } catch (error) {
+                showMessage('siteconfig-message', '网络错误：' + error.message, 'error');
+            }
         }
     </script>
 </body>
