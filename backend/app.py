@@ -416,7 +416,7 @@ logger.addHandler(ch)
 logger.addHandler(fh)
 
 app = Flask(__name__)
-CORS(app)  # , origins='*', supports_credentials=True)
+CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"], "allow_headers": "*"}})
 
 # 静态文件路由
 @app.route('/static/<path:filename>')
