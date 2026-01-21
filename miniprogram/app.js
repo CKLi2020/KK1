@@ -33,10 +33,10 @@ App({
   globalData: {
     // 配置：本地测试模式开关
     LOCAL_TEST_MODE: false,  // 本地测试时设为true，部署时设为false
-    SERVER_IP: '47.107.148.252',  // 服务器公网地址
+    SERVER_IP: 'yizhixiangsi.cn',  // 服务器域名
     
-    // API 服务器地址 - 本地开发时使用
-    apiBaseUrl: 'http://localhost:5000',
+    // API 服务器地址 - 生产环境使用HTTPS域名
+    apiBaseUrl: 'https://yizhixiangsi.cn',
     
     // 用户信息
       userInfo: {
