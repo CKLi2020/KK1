@@ -298,8 +298,8 @@ async function loadFonts() {
                 elements.fontSelect.appendChild(option);
             });
             
-            // 默认选择司马彦字体
-            const simayanFont = data.fonts.find(f => f.filename.includes('司马彦'));
+            // 默认选择欢欢字体
+            const simayanFont = data.fonts.find(f => f.filename.includes('欢欢'));
             if (simayanFont) {
                 appState.selectedFont = simayanFont.filename;
                 elements.fontSelect.value = simayanFont.filename;
