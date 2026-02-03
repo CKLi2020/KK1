@@ -35,8 +35,8 @@ App({
     LOCAL_TEST_MODE: false,  // 本地测试时设为true，部署时设为false
     SERVER_IP: '47.107.148.252',  // 服务器公网地址
     
-    // API 服务器地址 - 本地开发时使用
-    apiBaseUrl: 'http://localhost:5000',
+    // API 服务器地址 - 使用HTTPS域名
+    apiBaseUrl: 'https://yizhixiangsi.cn',
     
     // 用户信息
       userInfo: {
