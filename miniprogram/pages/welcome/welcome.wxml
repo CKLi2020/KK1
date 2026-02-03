@@ -9,7 +9,7 @@
     <view class="logo-section">
       <view class="logo-icon">✍️</view>
       <text class="app-name">一纸相思手写坊</text>
-      <text class="app-subtitle">全自动手写体生成</text>
+      <text class="app-subtitle">一纸相思煮流年</text>
     </view>
     
     <!-- 特性展示 -->

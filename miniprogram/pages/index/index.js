@@ -123,8 +123,8 @@ Page({
       
       this.setData({ fonts: fontNames })
       
-      // 默认选择司马彦硬笔手写体
-      const defaultIndex = fonts.findIndex(f => f.filename.includes('司马彦'))
+      // 默认选择欢欢硬笔手写体
+      const defaultIndex = fonts.findIndex(f => f.filename.includes('欢欢'))
       if (defaultIndex >= 0) {
         this.setData({ fontIndex: defaultIndex + 1 })
         // 保存到全局设置

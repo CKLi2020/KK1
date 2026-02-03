@@ -1429,13 +1429,14 @@ def miniprogram_generate():
     
     # 验证相思豆（如果提供了）
     loveseed_code = data.get("loveseed_code")
+    loveseed_info = None  # 保存相思豆信息
     if loveseed_code:
         try:
             # 验证相思豆
             loveseed = verify_loveseed_code(loveseed_code)
             if loveseed:
                 # 扣除次数
-                consume_loveseed_download(loveseed_code, openid, 'generate_pdf' if data.get("pdf_save", "false") == "true" else 'generate_image', len(text_to_generate))
+                loveseed_info = consume_loveseed_download(loveseed_code, openid, 'generate_pdf' if data.get("pdf_save", "false") == "true" else 'generate_image', len(text_to_generate))
                 is_vip = True  # 相思豆有效，视为VIP（无水印）
                 need_watermark = False
         except Exception as e:
@@ -1583,7 +1584,7 @@ def miniprogram_generate():
             # 清理临时图片目录
             safe_remove_directory(temp_dir)
             
-            return jsonify({
+            response_data = {
                 "status": "success",
                 "file_id": file_id,
                 "file_type": file_type,
@@ -1591,7 +1592,15 @@ def miniprogram_generate():
                 "page_count": len(image_paths),
                 "expires_in": 3600,
                 "message": "PDF生成成功，请在1小时内下载"
-            })
+            }
+            
+            # 添加相思豆信息（如果有）
+            if loveseed_info:
+                response_data['billing_type'] = loveseed_info.get('billing_type', 'count')
+                response_data['remaining_downloads'] = loveseed_info.get('remaining_downloads', 0)
+                response_data['expire_time'] = loveseed_info.get('expire_time')
+            
+            return jsonify(response_data)
         elif zip_mode:
             # 生成 ZIP
             zip_path = os.path.join(project_temp_base, f"{file_id}.zip")
@@ -1610,7 +1619,7 @@ def miniprogram_generate():
             # 清理临时图片目录
             safe_remove_directory(temp_dir)
             
-            return jsonify({
+            response_data = {
                 "status": "success",
                 "file_id": file_id,
                 "file_type": file_type,
@@ -1618,7 +1627,15 @@ def miniprogram_generate():
                 "page_count": len(image_paths),
                 "expires_in": 3600,
                 "message": "图片打包成功，请在1小时内下载"
-            })
+            }
+            
+            # 添加相思豆信息（如果有）
+            if loveseed_info:
+                response_data['billing_type'] = loveseed_info.get('billing_type', 'count')
+                response_data['remaining_downloads'] = loveseed_info.get('remaining_downloads', 0)
+                response_data['expire_time'] = loveseed_info.get('expire_time')
+            
+            return jsonify(response_data)
         else:
             # 返回 base64 图片数组（用于保存到相册）
             image_list = []
@@ -1630,12 +1647,20 @@ def miniprogram_generate():
             # 清理临时图片目录
             safe_remove_directory(temp_dir)
             
-            return jsonify({
+            response_data = {
                 "status": "success",
                 "images": image_list,
                 "page_count": len(image_list),
                 "message": f"图片生成成功，共 {len(image_list)} 页"
-            })
+            }
+            
+            # 添加相思豆信息（如果有）
+            if loveseed_info:
+                response_data['billing_type'] = loveseed_info.get('billing_type', 'count')
+                response_data['remaining_downloads'] = loveseed_info.get('remaining_downloads', 0)
+                response_data['expire_time'] = loveseed_info.get('expire_time')
+            
+            return jsonify(response_data)
         
     except Exception as e:
         safe_remove_directory(temp_dir)
